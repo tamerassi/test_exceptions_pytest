@@ -529,19 +529,6 @@ def test_5(driver):
     print(success_text.text)
     time.sleep(1)
 
-    #######################
-    # FIRE FOX
-
-    # @pytest.fixture()
-    # def driver():
-    #     firefox_driver_binary = "./drivers/geckodriver.exe"
-    #     ser_firefox = FirefoxService(firefox_driver_binary)
-    #     firefox_options = FireFoxOptions()
-    #     driver = webdriver.Firefox(service=ser_firefox, options=firefox_options)
-    #     yield driver
-    #     driver.close()
-    # A1 Register Account
-
 
 def test_1(firefox_driver):
     firefox_driver.get('http://tutorialsninja.com/demo/index.php?route=account/register')
