@@ -13,6 +13,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.firefox.options import Options as FireFoxOptions
 from selenium.webdriver.firefox.service import Service as FirefoxService
+from selenium.webdriver.edge.service import Service as EdgeService
+from selenium.webdriver.edge.options import Options as EdgeOptions
 
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -39,8 +41,9 @@ def driver():
     driver.close()
 
 
+
 @pytest.fixture()
-def firefox_driver():
+def driver():
     firefox_driver_binary = "./drivers/geckodriver.exe"
     ser_firefox = FirefoxService(firefox_driver_binary)
     firefox_options = FireFoxOptions()
@@ -54,8 +57,13 @@ def firefox_driver():
     yield driver
     driver.close()
 
-    #
-    # Test case 1: NoSuchElementException
+@pytest.fixture()
+def driver():
+    edge_driver_binary = "./drivers/msedgedriver.exe"
+    ser_edge = EdgeService(edge_driver_binary)
+    driver = webdriver.Edge(service=ser_edge)
+    yield driver
+    driver.close()
 
 
 def test_row_two_input(driver):
@@ -584,5 +592,62 @@ def test_1(firefox_driver):
 
     # success text
     success_text_reg = firefox_driver.find_element(By.XPATH, '//div[@class="col-sm-9"]/h1')
+    print(success_text_reg.text)
+    time.sleep(1)
+
+def test_edge(driver):
+    driver.get('http://tutorialsninja.com/demo/index.php?route=account/register')
+
+    # first name
+    first_name = driver.find_element(By.ID, 'input-firstname')
+    first_name.click()
+    time.sleep(1)
+    first_name.send_keys('tamer')
+    time.sleep(1)
+
+    # last name
+    last_name = driver.find_element(By.ID, 'input-lastname')
+    last_name.click()
+    time.sleep(1)
+    last_name.send_keys('assi')
+    time.sleep(1)
+
+    # Email
+    email = driver.find_element(By.ID, 'input-email')
+    email.click()
+    time.sleep(1)
+    email.send_keys('tamerassi11@gmail.com')
+    time.sleep(1)
+
+    phonenum = driver.find_element(By.ID, 'input-telephone')
+    phonenum.click()
+    time.sleep(1)
+    phonenum.send_keys('0502223566')
+    time.sleep(1)
+
+    # password
+    password = driver.find_element(By.ID, 'input-password')
+    password.click()
+    time.sleep(1)
+    password.send_keys('qaz123+1')
+    time.sleep(1)
+
+    # Password Confirm
+    password_Confirm = driver.find_element(By.ID, 'input-confirm')
+    password_Confirm.click()
+    time.sleep(1)
+    password_Confirm.send_keys('qaz123+1')
+    time.sleep(1)
+
+    t_e1 = driver.find_element(By.XPATH, '//input[@name="agree"]')
+    t_e1.click()
+    time.sleep(3)
+
+    continue_reg = driver.find_element(By.XPATH, '//input[@class="btn btn-primary"]')
+    continue_reg.click()
+    time.sleep(2)
+
+    # success text
+    success_text_reg = driver.find_element(By.XPATH, '//div[@class="col-sm-9"]/h1')
     print(success_text_reg.text)
     time.sleep(1)
