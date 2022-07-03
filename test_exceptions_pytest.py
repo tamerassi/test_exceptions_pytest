@@ -32,38 +32,60 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 
+# @pytest.fixture()
+# def driver():
+#     chrome_driver_binary = "./drivers/chromedriver.exe"
+#     ser_chrome = ChromeService(chrome_driver_binary)
+#     driver = webdriver.Chrome(service=ser_chrome)
+#     yield driver
+#     driver.close()
+
+
+# @pytest.fixture()
+# def driver():
+#     firefox_driver_binary = "./drivers/geckodriver.exe"
+#     ser_firefox = FirefoxService(firefox_driver_binary)
+#     firefox_options = FireFoxOptions()
+#     driver = webdriver.Firefox(service=ser_firefox, options=firefox_options)
+#     yield driver
+#     driver.close()
+
+# @pytest.fixture()
+# def driver():
+#     edge_driver_binary = "./drivers/msedgedriver.exe"
+#     ser_edge = EdgeService(edge_driver_binary)
+#     driver = webdriver.Edge(service=ser_edge)
+#     yield driver
+#     driver.close()
+
 @pytest.fixture()
 def driver():
-    chrome_driver_binary = "./drivers/chromedriver.exe"
-    ser_chrome = ChromeService(chrome_driver_binary)
-    driver = webdriver.Chrome(service=ser_chrome)
+    Firefox_driver_binary = "./drivers/geckodriver.exe"
+    fire_fox_options = FireFoxOptions()
+    fire_fox_options.add_argument("--width=330")
+    fire_fox_options.add_argument("--height=730")
+    fire_fox_options.set_preference("general.useragent.override", "Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS "
+                                                                  "X) AppleWebKit/605.1.15 (KHTML, like Gecko) "
+                                                                  "Version/14.0.3 Mobile/15E148 Safari/604.1")
+    ser_firefox = FirefoxService(Firefox_driver_binary)
+    driver = webdriver.Firefox(service=ser_firefox, options=fire_fox_options)
     yield driver
     driver.close()
 
+# @pytest.fixture()
+# def driver():
+#
+#     Firefox_driver_binary = "./drivers/geckodriver.exe"
+#     fire_fox_options = FireFoxOptions()
+#     fire_fox_options.add_argument("--width=834")
+#     fire_fox_options.add_argument("--height=1194")
+#     fire_fox_options.set_preference("general.useragent.override", "Mozilla/5.0 (iPad; CPU OS 14_7_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.2 Mobile/15E148 Safari/604.1")
+#     ser_firefox = FirefoxService(Firefox_driver_binary)
+#     driver = webdriver.Firefox(service=ser_firefox, options=fire_fox_options)
+#     yield driver
+#     driver.close()
 
 
-@pytest.fixture()
-def driver():
-    firefox_driver_binary = "./drivers/geckodriver.exe"
-    ser_firefox = FirefoxService(firefox_driver_binary)
-    firefox_options = FireFoxOptions()
-    # firefox_options.add_argument("--width=375")
-    # firefox_options.add_argument("--height=812")
-    # firefox_options.set_preference("general.useragent.override", "userAgent=Mozilla/5.0"
-    #                                                              "(iPhone; CPU iPhon OS 15_4 like Mac OS X) "
-    #                                                              "AppleWebKit/605.1.15 (KHTML, like Gecko) "
-    #                                                              "Version/14.0.3 Mobile/15E148 Safari/604.1")
-    driver = webdriver.Firefox(service=ser_firefox, options=firefox_options)
-    yield driver
-    driver.close()
-
-@pytest.fixture()
-def driver():
-    edge_driver_binary = "./drivers/msedgedriver.exe"
-    ser_edge = EdgeService(edge_driver_binary)
-    driver = webdriver.Edge(service=ser_edge)
-    yield driver
-    driver.close()
 
 
 def test_row_two_input(driver):
@@ -90,7 +112,7 @@ def test_row_two_input(driver):
     email = driver.find_element_by_id('input-email')
     email.click()
     time.sleep(1)
-    email.send_keys('tamerassi11@gmail.com')
+    email.send_keys('tamer11@gmail.com')
     time.sleep(1)
 
     # phone_num
@@ -150,7 +172,7 @@ def test_2(driver):
     email = driver.find_element_by_id('input-email')
     email.click()
     time.sleep(1)
-    email.send_keys('tamerassi@gmail.com')
+    email.send_keys('tamer11@gmail.com')
     time.sleep(1)
 
     # phone_num
@@ -185,6 +207,7 @@ def test_2(driver):
     # success text
 
     text_saved = driver.find_element_by_xpath('//div[@class="alert alert-danger alert-dismissible"]').text
+    print(text_saved)
     assert 'Warning: E-Mail Address is already registered!' == text_saved
     time.sleep(3)
 
@@ -244,8 +267,9 @@ def test_3(driver):
     time.sleep(2)
 
     # success text
-    text_saved = driver.find_element_by_xpath('//div[@class="text-danger"]').text
-    assert 'Telephone must be between 3 and 32 characters!' == text_saved
+    text_saved_1 = driver.find_element_by_xpath('//div[@class="text-danger"]').text
+    assert 'Telephone must be between 3 and 32 characters!' == text_saved_1
+    print(text_saved_1)
     time.sleep(3)
 
 
@@ -305,74 +329,81 @@ def test_4(driver):
     time.sleep(2)
 
     # success text
-    text_saved = driver.find_element_by_xpath('//div[@class="text-danger"]').text
-    assert 'E-Mail Address does not appear to be valid!' == text_saved
+    text_saved_2 = driver.find_element_by_xpath('//div[@class="text-danger"]').text
+    assert 'E-Mail Address does not appear to be valid!' == text_saved_2
+    print(text_saved_2)
     time.sleep(3)
 
 
-def test_5(driver):
+def test_Buy_Product(driver):
     ########################
     # A(4+5+6)
     driver.get('http://tutorialsninja.com/demo/')
     driver.maximize_window()
     #
     # phones button
+    time.sleep(2)
     phones = driver.find_element_by_xpath('//a[text()="Phones & PDAs"]')
     phones.click()
 
     # iphone
     iphone = driver.find_element_by_xpath('//a[text()="iPhone"]')
-    iphone.location_once_scrolled_into_view
+    # iphone.location_once_scrolled_into_view
     iphone_text = iphone.text
-    # iphone.click()
-    time.sleep(5)
-
+    iphone.click()
+    time.sleep(3)
+    store_button = driver.find_element_by_xpath(
+        '//a[@href="http://tutorialsninja.com/demo/index.php?route=common/home"]')
+    store_button.click()
+    time.sleep(2)
     search = driver.find_element_by_xpath('//input[@name="search"]')
     search.click()
     time.sleep(2)
     search.send_keys('iphone')
-    ser_buttom = driver.find_element_by_xpath('//button[@class="btn btn-default btn-lg"]')
-    ser_buttom.click()
+    ser_button = driver.find_element_by_xpath('//button[@class="btn btn-default btn-lg"]')
+    ser_button.click()
     time.sleep(2)
     new_iphone = driver.find_element_by_xpath('//a[text()="iPhone"]')
-    new_iphone.location_once_scrolled_into_view
-    time.sleep(5)
     assert iphone_text == new_iphone.text
     time.sleep(3)
-    # # first_pic
-    # first_pic = driver.find_element_by_xpath('//ul[@class="thumbnails"]/li[1]')
-    # first_pic.click()
-    # time.sleep(2)
-    #
-    # # next pic
-    # next_click = driver.find_element_by_xpath('//button[@title="Next (Right arrow key)"]')
-    # next_click.click()
-    #
-    # for i in range(0, 4):
-    #     next_click.click()
-    #     time.sleep(2)
-    #
-    # # save screenshoot
-    # driver.save_screenshot('screenshot#' + str(random.randint(0, 101)) + '.png')
-    #
-    # # close
-    # x_button = driver.find_element_by_xpath('//button[@title="Close (Esc)"]')
-    # x_button.click()
-    # time.sleep(1)
+    new_iphone.click()
+    # new_iphone.location_once_scrolled_into_view
+    time.sleep(3)
+
+    # first_pic
+    first_pic = driver.find_element_by_xpath('//ul[@class="thumbnails"]/li[1]')
+    first_pic.click()
+    time.sleep(2)
+
+    # next pic
+    next_click = driver.find_element_by_xpath('//button[@title="Next (Right arrow key)"]')
+    next_click.click()
+
+    for i in range(0, 4):
+        next_click.click()
+        time.sleep(2)
+
+    # save screenshoot
+    driver.save_screenshot('screenshot#' + str(random.randint(0, 101)) + '.png')
+
+    # close
+    x_button = driver.find_element_by_xpath('//button[@title="Close (Esc)"]')
+    x_button.click()
+    time.sleep(1)
 
     # quantity
-    # quantity = driver.find_element_by_id('input-quantity')
-    # quantity.click()
-    # time.sleep(1)
-    #
-    # quantity.clear()
-    # time.sleep(1)
-    # quantity.send_keys('2')
-    # time.sleep(5)
-    #
-    # add_to_button = driver.find_element_by_id('button-cart')
-    # add_to_button.click()
-    # time.sleep(2)
+    quantity = driver.find_element_by_id('input-quantity')
+    quantity.click()
+    time.sleep(1)
+
+    quantity.clear()
+    time.sleep(1)
+    quantity.send_keys('2')
+    time.sleep(5)
+
+    add_to_button = driver.find_element_by_id('button-cart')
+    add_to_button.click()
+    time.sleep(2)
 
     laptops = driver.find_element_by_xpath('//a[text()="Laptops & Notebooks"]')
     action = ActionChains(driver)
@@ -417,11 +448,383 @@ def test_5(driver):
     # Checkout
     go_to_cart = driver.find_element_by_id('cart-total')
     go_to_cart.click()
-    time.sleep(1)
-
+    time.sleep(3)
+    delete_iphone = driver.find_element_by_xpath('//i[@class="fa fa-times"]')
+    delete_iphone.click()
+    time.sleep(3)
+    go_to_cart = driver.find_element_by_id('cart-total')
+    go_to_cart.click()
+    time.sleep(3)
     checkout = driver.find_element_by_xpath('//p[@class="text-right"]/a[2]')
     checkout.click()
     time.sleep(5)
+
+    # click on guset account
+    guest = driver.find_element_by_xpath('//input[@value="guest"]')
+    guest.click()
+
+    # click to continue1
+    continue_1 = driver.find_element_by_id('button-account')
+    continue_1.click()
+    time.sleep(1)
+
+    step_2 = driver.find_element_by_xpath('//a[text()="Step 2: Billing Details "]')
+    step_2.location_once_scrolled_into_view
+    time.sleep(2)
+
+    # first name
+
+    first_name = driver.find_element_by_id('input-payment-firstname')
+    first_name.click()
+    time.sleep(1)
+    first_name.send_keys('tamer')
+    time.sleep(1)
+
+    # last name
+    last_name = driver.find_element_by_id('input-payment-lastname')
+    last_name.click()
+    time.sleep(1)
+    last_name.send_keys('assi')
+    time.sleep(1)
+
+    # Email
+    email = driver.find_element_by_id('input-payment-email')
+    email.click()
+    time.sleep(1)
+    email.send_keys('tamerassi@gmail.com')
+    time.sleep(1)
+
+    # phone_num
+    phonenum = driver.find_element_by_id('input-payment-telephone')
+    phonenum.click()
+    time.sleep(1)
+    phonenum.send_keys('0502223566')
+    time.sleep(1)
+
+    # Address
+    address = driver.find_element_by_id('input-payment-address-1')
+    address.click()
+    time.sleep(1)
+    address.send_keys('yafa 6')
+    time.sleep(1)
+
+    # city
+    city = driver.find_element_by_id('input-payment-city')
+    city.click()
+    time.sleep(1)
+    city.send_keys('kufur-bara')
+    time.sleep(1)
+
+    # post code
+    post_code = driver.find_element_by_id('input-payment-postcode')
+    post_code.click()
+    time.sleep(1)
+    post_code.send_keys('12345')
+    time.sleep(1)
+
+    # country
+    country = driver.find_element_by_id('input-payment-country')
+    dropdown_1 = Select(country)
+    time.sleep(1)
+    dropdown_1.select_by_visible_text('Israel')
+    time.sleep(3)
+
+    # region
+    region = driver.find_element_by_id('input-payment-zone')
+    dropdown_2 = Select(region)
+    time.sleep(1)
+    dropdown_2.select_by_visible_text('Sharon')
+    time.sleep(5)
+
+    # click continue2
+    continue_2 = driver.find_element_by_xpath('//*[@id="button-guest"]')
+    continue_2.click()
+    time.sleep(5)
+
+    # click continue 3
+    continue_3 = driver.find_element_by_id('button-shipping-method')
+    continue_3.click()
+    time.sleep(3)
+
+    # accept terms
+
+    t_e = driver.find_element_by_xpath('//input[@name="agree"]')
+    t_e.click()
+    time.sleep(3)
+
+    # click continue4
+    continue_4 = driver.find_element_by_xpath(('//input[@id="button-payment-method"]'))
+    continue_4.click()
+    time.sleep(3)
+
+    # final price
+    final_price = driver.find_element_by_xpath('//table[@class="table table-bordered table-hover"]/tfoot/tr[3]/td[2]')
+
+    print("The final price of both products is " + final_price.text)
+    time.sleep(2)
+
+    # click on con_button
+    confirmation_button = driver.find_element_by_id('button-confirm')
+    confirmation_button.click()
+    time.sleep(10)
+
+    # success text
+    success_text = driver.find_element_by_xpath('//div[@class="col-sm-12"]/h1')
+    print(success_text.text)
+    time.sleep(1)
+
+
+def test_1(firefox_driver):
+    firefox_driver.get('http://tutorialsninja.com/demo/index.php?route=account/register')
+
+    # first name
+    first_name = firefox_driver.find_element(By.ID, 'input-firstname')
+    first_name.click()
+    time.sleep(1)
+    first_name.send_keys('tamer')
+    time.sleep(1)
+
+    # last name
+    last_name = firefox_driver.find_element(By.ID, 'input-lastname')
+    last_name.click()
+    time.sleep(1)
+    last_name.send_keys('assi')
+    time.sleep(1)
+
+    # Email
+    email = firefox_driver.find_element(By.ID, 'input-email')
+    email.click()
+    time.sleep(1)
+    email.send_keys('tamerassi11@gmail.com')
+    time.sleep(1)
+
+    phonenum = firefox_driver.find_element(By.ID, 'input-telephone')
+    phonenum.click()
+    time.sleep(1)
+    phonenum.send_keys('0502223566')
+    time.sleep(1)
+
+    # password
+    password = firefox_driver.find_element(By.ID, 'input-password')
+    password.click()
+    time.sleep(1)
+    password.send_keys('qaz123+1')
+    time.sleep(1)
+
+    # Password Confirm
+    password_Confirm = firefox_driver.find_element(By.ID, 'input-confirm')
+    password_Confirm.click()
+    time.sleep(1)
+    password_Confirm.send_keys('qaz123+1')
+    time.sleep(1)
+
+    t_e1 = firefox_driver.find_element(By.XPATH, '//input[@name="agree"]')
+    t_e1.click()
+    time.sleep(3)
+
+    continue_reg = firefox_driver.find_element(By.XPATH, '//input[@class="btn btn-primary"]')
+    continue_reg.click()
+    time.sleep(2)
+
+    # success text
+    success_text_reg = firefox_driver.find_element(By.XPATH, '//div[@class="col-sm-9"]/h1')
+    print(success_text_reg.text)
+    time.sleep(1)
+
+def test_edge(driver):
+    driver.get('http://tutorialsninja.com/demo/')
+    time.sleep(3)
+    # first name
+    first_name = driver.find_element(By.ID, 'input-firstname')
+    first_name.click()
+    time.sleep(1)
+    first_name.send_keys('tamer')
+    time.sleep(1)
+
+    # last name
+    last_name = driver.find_element(By.ID, 'input-lastname')
+    last_name.click()
+    time.sleep(1)
+    last_name.send_keys('assi')
+    time.sleep(1)
+
+    # Email
+    email = driver.find_element(By.ID, 'input-email')
+    email.click()
+    time.sleep(1)
+    email.send_keys('tamerassi11@gmail.com')
+    time.sleep(1)
+
+    phonenum = driver.find_element(By.ID, 'input-telephone')
+    phonenum.click()
+    time.sleep(1)
+    phonenum.send_keys('0502223566')
+    time.sleep(1)
+
+    # password
+    password = driver.find_element(By.ID, 'input-password')
+    password.click()
+    time.sleep(1)
+    password.send_keys('qaz123+1')
+    time.sleep(1)
+
+    # Password Confirm
+    password_Confirm = driver.find_element(By.ID, 'input-confirm')
+    password_Confirm.click()
+    time.sleep(1)
+    password_Confirm.send_keys('qaz123+1')
+    time.sleep(1)
+
+    t_e1 = driver.find_element(By.XPATH, '//input[@name="agree"]')
+    t_e1.click()
+    time.sleep(3)
+
+    continue_reg = driver.find_element(By.XPATH, '//input[@class="btn btn-primary"]')
+    continue_reg.click()
+    time.sleep(2)
+
+    # success text
+    success_text_reg = driver.find_element(By.XPATH, '//div[@class="col-sm-9"]/h1')
+    print(success_text_reg.text)
+    time.sleep(1)
+
+
+
+def test_phone(driver):
+    ########################
+    # A(4+5+6)
+    driver.get('http://tutorialsninja.com/demo/')
+    time.sleep(2)
+    # driver.maximize_window()
+    #
+    button_phone=driver.find_element_by_xpath('//i[@class="fa fa-bars"]')
+    button_phone.click()
+    time.sleep(2)
+    # phones button
+    phones = driver.find_element_by_xpath('//a[text()="Phones & PDAs"]')
+    phones.click()
+
+    # iphone
+    iphone = driver.find_element_by_xpath('//a[text()="iPhone"]')
+    # iphone.location_once_scrolled_into_view
+    iphone_text = iphone.text
+    iphone.click()
+    time.sleep(3)
+    store_button=driver.find_element_by_xpath('//a[@href="http://tutorialsninja.com/demo/index.php?route=common/home"]')
+    store_button.click()
+    time.sleep(2)
+    search = driver.find_element_by_xpath('//input[@name="search"]')
+    search.click()
+    time.sleep(2)
+    search.send_keys('iphone')
+    ser_button = driver.find_element_by_xpath('//button[@class="btn btn-default btn-lg"]')
+    ser_button.click()
+    time.sleep(2)
+    new_iphone = driver.find_element_by_xpath('//a[text()="iPhone"]')
+    assert iphone_text == new_iphone.text
+    time.sleep(3)
+    new_iphone.click()
+    # new_iphone.location_once_scrolled_into_view
+    time.sleep(3)
+
+
+    # first_pic
+    first_pic = driver.find_element_by_xpath('//ul[@class="thumbnails"]/li[1]')
+    first_pic.click()
+    time.sleep(2)
+
+    # next pic
+    next_click = driver.find_element_by_xpath('//button[@title="Next (Right arrow key)"]')
+    next_click.click()
+
+    for i in range(0, 4):
+        next_click.click()
+        time.sleep(2)
+
+    # save screenshoot
+    driver.save_screenshot('screenshot#' + str(random.randint(0, 101)) + '.png')
+
+    # close
+    x_button = driver.find_element_by_xpath('//button[@title="Close (Esc)"]')
+    x_button.click()
+    time.sleep(1)
+
+    # quantity
+    quantity = driver.find_element_by_id('input-quantity')
+    quantity.click()
+    time.sleep(1)
+
+    quantity.clear()
+    time.sleep(1)
+    quantity.send_keys('2')
+    time.sleep(5)
+
+    add_to_button = driver.find_element_by_id('button-cart')
+    add_to_button.click()
+    time.sleep(2)
+
+
+
+
+    button_phone = driver.find_element_by_xpath('//i[@class="fa fa-bars"]')
+    button_phone.click()
+    time.sleep(2)
+    laptops = driver.find_element_by_xpath('//a[text()="Laptops & Notebooks"]')
+    laptops.click()
+
+    action = ActionChains(driver)
+    # action.move_to_element(laptops).perform()
+    time.sleep(2)
+    laptops_2 = driver.find_element_by_xpath('//a[text()="Show All Laptops & Notebooks"]')
+    laptops_2.click()
+    time.sleep(3)
+
+    # click on HP laptop
+    Hp = driver.find_element_by_xpath('//a[text()="HP LP3065"]')
+    Hp.click()
+    time.sleep(1)
+
+    # scroll
+    add_to_button_2 = driver.find_element_by_xpath('//button[@id="button-cart"]')
+
+    # add_to_button_2.location_once_scrolled_into_view
+    time.sleep(1)
+
+    # calendar
+    calendar = driver.find_element_by_xpath('//i[@class="fa fa-calendar"]')
+    calendar.click()
+    time.sleep(1)
+
+    next_click_calendar = driver.find_element_by_xpath('//th[@class="next"]')
+    month_year = driver.find_element_by_xpath('//th[@class="picker-switch"]')
+
+    while month_year.text != 'December 2022':
+        next_click_calendar.click()
+    time.sleep(3)
+
+    # day_31
+    calendar_date = driver.find_element_by_xpath('//td[text()="31"]')
+    calendar_date.click()
+    time.sleep(2)
+
+    # add to button
+    add_to_button_2.click()
+    time.sleep(3)
+
+    # Checkout
+    go_to_cart = driver.find_element_by_id('cart-total')
+    go_to_cart.click()
+    time.sleep(3)
+    delete_iphone = driver.find_element_by_xpath('//i[@class="fa fa-times"]')
+    delete_iphone.click()
+    time.sleep(3)
+    go_to_cart = driver.find_element_by_id('cart-total')
+    go_to_cart.click()
+    time.sleep(3)
+    checkout = driver.find_element_by_xpath('//p[@class="text-right"]/a[2]')
+    checkout.click()
+    time.sleep(5)
+
 
     # click on guset account
     guest = driver.find_element_by_xpath('//input[@value="guest"]')
@@ -538,116 +941,3 @@ def test_5(driver):
     time.sleep(1)
 
 
-def test_1(firefox_driver):
-    firefox_driver.get('http://tutorialsninja.com/demo/index.php?route=account/register')
-
-    # first name
-    first_name = firefox_driver.find_element(By.ID, 'input-firstname')
-    first_name.click()
-    time.sleep(1)
-    first_name.send_keys('tamer')
-    time.sleep(1)
-
-    # last name
-    last_name = firefox_driver.find_element(By.ID, 'input-lastname')
-    last_name.click()
-    time.sleep(1)
-    last_name.send_keys('assi')
-    time.sleep(1)
-
-    # Email
-    email = firefox_driver.find_element(By.ID, 'input-email')
-    email.click()
-    time.sleep(1)
-    email.send_keys('tamerassi11@gmail.com')
-    time.sleep(1)
-
-    phonenum = firefox_driver.find_element(By.ID, 'input-telephone')
-    phonenum.click()
-    time.sleep(1)
-    phonenum.send_keys('0502223566')
-    time.sleep(1)
-
-    # password
-    password = firefox_driver.find_element(By.ID, 'input-password')
-    password.click()
-    time.sleep(1)
-    password.send_keys('qaz123+1')
-    time.sleep(1)
-
-    # Password Confirm
-    password_Confirm = firefox_driver.find_element(By.ID, 'input-confirm')
-    password_Confirm.click()
-    time.sleep(1)
-    password_Confirm.send_keys('qaz123+1')
-    time.sleep(1)
-
-    t_e1 = firefox_driver.find_element(By.XPATH, '//input[@name="agree"]')
-    t_e1.click()
-    time.sleep(3)
-
-    continue_reg = firefox_driver.find_element(By.XPATH, '//input[@class="btn btn-primary"]')
-    continue_reg.click()
-    time.sleep(2)
-
-    # success text
-    success_text_reg = firefox_driver.find_element(By.XPATH, '//div[@class="col-sm-9"]/h1')
-    print(success_text_reg.text)
-    time.sleep(1)
-
-def test_edge(driver):
-    driver.get('http://tutorialsninja.com/demo/index.php?route=account/register')
-
-    # first name
-    first_name = driver.find_element(By.ID, 'input-firstname')
-    first_name.click()
-    time.sleep(1)
-    first_name.send_keys('tamer')
-    time.sleep(1)
-
-    # last name
-    last_name = driver.find_element(By.ID, 'input-lastname')
-    last_name.click()
-    time.sleep(1)
-    last_name.send_keys('assi')
-    time.sleep(1)
-
-    # Email
-    email = driver.find_element(By.ID, 'input-email')
-    email.click()
-    time.sleep(1)
-    email.send_keys('tamerassi11@gmail.com')
-    time.sleep(1)
-
-    phonenum = driver.find_element(By.ID, 'input-telephone')
-    phonenum.click()
-    time.sleep(1)
-    phonenum.send_keys('0502223566')
-    time.sleep(1)
-
-    # password
-    password = driver.find_element(By.ID, 'input-password')
-    password.click()
-    time.sleep(1)
-    password.send_keys('qaz123+1')
-    time.sleep(1)
-
-    # Password Confirm
-    password_Confirm = driver.find_element(By.ID, 'input-confirm')
-    password_Confirm.click()
-    time.sleep(1)
-    password_Confirm.send_keys('qaz123+1')
-    time.sleep(1)
-
-    t_e1 = driver.find_element(By.XPATH, '//input[@name="agree"]')
-    t_e1.click()
-    time.sleep(3)
-
-    continue_reg = driver.find_element(By.XPATH, '//input[@class="btn btn-primary"]')
-    continue_reg.click()
-    time.sleep(2)
-
-    # success text
-    success_text_reg = driver.find_element(By.XPATH, '//div[@class="col-sm-9"]/h1')
-    print(success_text_reg.text)
-    time.sleep(1)
